@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview"
+  },
+  "devDependencies": {
+    "@nuxt3-graphql/urql": "^0.4.0",
+    "@urql/vue": "^0.6.2",
+    "autoprefixer": "^10.4.7",
+    "graphql": "^16.3.0",
+    "nuxt": "3.0.0-rc.1",
+    "nuxt-graphql-request": "^5.1.0",
+    "postcss": "^8.4.13",
+    "tailwindcss": "^3.0.24"
+  }
+}
