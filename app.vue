@@ -2,9 +2,6 @@
   <div>
     <div class="container mx-auto">
       <br><br>
-
-      <!-- {{ (data && data.todos) || '' }} -->
-
       <div v-if="data && data.todos">
         <div v-for="todo in data.todos" :key="todo.id">
           <input type="checkbox" class="mr-2" :id="todo.id" :value="todo.id" v-model="checkedIds">{{ todo.id }} | {{ todo.text }} | {{ todo.completed }}
@@ -17,8 +14,6 @@
       <button @click="makeTodo()" class="border-solid px-3 border-2 border-indigo-600 w-48">Add Todo</button>
       <br>
       <button @click="removeAllTodos()" class="border-solid px-3 border-2 border-indigo-600 w-48">Remove Todos</button> <br><br>
-      <!-- <button @click="removeAllTodos('title')" class="border-solid px-3 border-2 border-indigo-600 w-48">Clear All</button> -->
-
     </div>
   </div>
 </template>
