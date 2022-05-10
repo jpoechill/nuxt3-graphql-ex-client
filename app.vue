@@ -1,28 +1,25 @@
 <template>
   <div>
-    <br><br>
+    <div class="container mx-auto">
+      <br><br>
 
-    <!-- {{ (data && data.todos) || '' }} -->
+      <!-- {{ (data && data.todos) || '' }} -->
 
-    <div v-if="data && data.todos">
-      <div v-for="(todo, index) in data.todos" :key="index">
-        {{ todo }}
+      <div v-if="data && data.todos">
+        <div v-for="todo in data.todos" :key="todo.id">
+          <input type="checkbox" class="mr-2" :id="todo.id" :value="todo.id" v-model="checkedIds">{{ todo.id }} | {{ todo.text }} | {{ todo.completed }}
+        </div>
       </div>
+
+      <br><br>
+      Todo: <br>
+      <input type="text" v-model="newTodoTitle" class="rounded border-2"><br>
+      <button @click="makeTodo()" class="border-solid px-3 border-2 border-indigo-600 w-48">Add Todo</button>
+      <br>
+      <button @click="removeAllTodos()" class="border-solid px-3 border-2 border-indigo-600 w-48">Remove Todos</button> <br><br>
+      <!-- <button @click="removeAllTodos('title')" class="border-solid px-3 border-2 border-indigo-600 w-48">Clear All</button> -->
+
     </div>
-    <!-- <div v-if="data">
-      <div v-for="(todo, index) in data.todos" :key="index">
-        {{ todo }}
-      </div>
-    </div> -->
-      <!-- <div v-for="(todo, index) in data.todos" :key="index">
-        'cat'
-      </div> -->
-
-    <br><br>
-
-    <!-- <button @click="refresh()" class="border-solid px-3 border-2 border-indigo-600 w-48">Get Data</button> -->
-    <button @click="makeTodo('this is a title')" class="border-solid px-3 border-2 border-indigo-600 w-48">Add Todo</button>
-    <button @click="removeAllTodos('title')" class="border-solid px-3 border-2 border-indigo-600 w-48">Clear All</button>
   </div>
 </template>
 
@@ -34,7 +31,9 @@ import './assets/css/tailwind.css'
 export default defineComponent({
   data () {
     return {
-      cat: 'dog'
+      cat: 'dog',
+      newTodoTitle: '',
+      checkedIds: []
     }
   },
   async setup() {
@@ -56,24 +55,27 @@ export default defineComponent({
       }
     `);
 
-    const removeTodo = useMutation(`
+    const removeAllTodo = useMutation(`
       mutation ($id: String!) {
         removeTodo (id: $id)
       }
     `);
 
     return {
-      removeAllTodos(title) {
-        const variables = { id: title || '' };
+      removeAllTodos() {
+        console.log(this.checkedIds.toString())
+        const variables = { id: this.checkedIds.toString() };
         
-        removeTodo.executeMutation(variables).then(result => {
+        removeAllTodo.executeMutation(variables).then(result => {
           this.refresh()
+          this.checkedIds = []
         });
       },
       makeTodo(title) {
-        const variables = { text: title || '' };
+        const variables = { text: this.newTodoTitle || '' };
         updateTodoResult.executeMutation(variables).then(result => {
           this.refresh()
+          this.newTodoTitle = ''
         });
       },
       refresh() {
